@@ -1,0 +1,33 @@
+set surround
+set ignorecase
+set smartcase
+set scrolloff=3
+set clipboard=unnamedplus,unnamed
+
+let mapleader = " "
+
+nmap <c-h> <c-w>h
+nmap <c-l> <c-w>l
+nmap <c-k> <c-w>k
+nmap <c-j> <c-w>j
+nmap <c-p> :action SearchEverywhere<cr>
+nmap <c-a> :action GotoAction<cr>
+
+nmap <c-]> :action GotoDeclaration<cr>
+nmap <c-o> :action Back<cr>
+imap <c-p> :action ParameterInfo<cr>
+
+nmap <leader>y "*y
+vmap <leader>y "*y
+nmap <leader>d "*d
+vmap <leader>d "*d
+nmap <leader>p "*p
+vmap <leader>p "*p
+
+nmap <leader>sl :action SplitVertically<cr>
+nmap <leader>sj :action SplitHorizontally<cr>
+nmap <leader>p :action ParameterInfo<cr>
+nmap <leader>b :action RecentFiles<cr>
+
+noremap <leader>fs :w<cr>
+noremap <leader>q :q<cr>
