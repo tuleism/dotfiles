@@ -49,7 +49,7 @@ call plug#begin('~/.config/nvim/bundle')
 Plug 'jgdavey/tslime.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ervandew/supertab'
-Plug 'benekastah/neomake'
+Plug 'neomake/neomake'
 Plug 'moll/vim-bbye'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
@@ -83,14 +83,13 @@ Plug 'vimwiki/vimwiki'
 "themes
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mhartington/oceanic-next'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'atelierbram/vim-colors_atelier-schemes'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 "FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-
-"python
-Plug 'davidhalter/jedi-vim'
-Plug 'zchee/deoplete-jedi'
 
 "json
 Plug 'elzr/vim-json'
@@ -106,6 +105,12 @@ Plug 'derekwyatt/vim-scala'
 
 "autoformat
 Plug 'Chiel92/vim-autoformat'
+
+"haskell
+Plug 'neovimhaskell/haskell-vim'
+
+"go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 " }}}
@@ -192,7 +197,8 @@ nmap <silent> <leader>u :MundoToggle<CR>
 
 " Themes {{{
 set termguicolors
-colorscheme OceanicNext
+set background=dark
+colorscheme dracula
 
 "adjust signscolumn
 hi! link SignColumn LineNr
@@ -211,7 +217,7 @@ hi Cursor guibg=red
 set ffs=unix,dos,mac
 
 " airline
-let g:airline_theme = 'oceanicnext'
+let g:airline_theme = 'dracula'
 let g:airline_powerline_fonts = 1
 " }}}
 
@@ -250,6 +256,11 @@ augroup last_edit
 augroup END
 set viminfo^=% "remember info about open buffers on close
 set hidden "don't close buffers when you aren't displaying them
+
+"quicklist
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
 
 "move between windows
 noremap <C-h> <c-w>h
@@ -366,6 +377,33 @@ nnoremap <silent> <leader>g? :call CommittedFiles()<CR>:copen<CR>
 
 " }}}
 
+" go {{{
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+"highlighting
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_list_type = "quickfix"
+let g:go_metalinter_autosave = 1
+" }}}
+
 " FZF {{{
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -382,10 +420,9 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 noremap <leader>bb :History<cr>
-noremap <C-p> :Files<cr>
-noremap <C-g> :GFiles<cr>
+noremap <leader>p :Files<cr>
 noremap <leader>/ :Ag<Space>
-noremap <leader>e :Files %:p:h<cr>
+noremap <leader>e :GFiles<cr>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -407,5 +444,6 @@ let g:formatters_scala = ['scalafmt']
 " }}}
 
 " vimwiki {{{
-let g:vimwiki_list = [{'path': '~/OneDrive/vimwiki'}]
+let g:vimwiki_list = [{'path': '~/shinsekai/vimwiki'}]
+let g:nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'scala': 'scala'}
 " }}}
