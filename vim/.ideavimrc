@@ -31,3 +31,4 @@ nmap <leader>b :action RecentFiles<cr>
 
 noremap <leader>fs :w<cr>
 noremap <leader>q :q<cr>
+set ideajoin
