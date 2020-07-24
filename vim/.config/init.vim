@@ -391,7 +391,8 @@ let g:fzf_colors =
 
 noremap <leader>bb :History<cr>
 noremap <leader>p :Files<cr>
-noremap <leader>/ :Ag<Space>
+noremap <leader>/ :Rg<Space>
+vnoremap <leader>/ y:Rg "<c-r>""<cr>
 noremap <leader>e :GFiles<cr>
 
 let g:fzf_action = {
