@@ -415,6 +415,6 @@ let g:formatters_scala = ['scalafmt']
 " }}}
 
 " vimwiki {{{
-let g:vimwiki_list = [{'path': '~/shinsekai/vimwiki'}]
+let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]
 let g:nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'scala': 'scala'}
 " }}}
